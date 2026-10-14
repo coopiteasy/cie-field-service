@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="fsm_order_form_available_workers" model="ir.ui.view">
+        <field name="name">fsm.order.form.available.workers</field>
+        <field name="model">fsm.order</field>
+        <field name="inherit_id" ref="fieldservice.fsm_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='request_workers']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//group[@name='request_workers']" position="after">
+                <group string="Available Workers" name="available_workers">
+                    <field name="available_worker_ids" nolabel="1" colspan="2">
+                        <list>
+                            <field name="name" />
+                            <field name="phone" />
+                            <field name="email" />
+                            <field
+                                name="category_ids"
+                                widget="many2many_tags"
+                                options="{'color_field': 'color'}"
+                                groups="fieldservice.group_fsm_category"
+                            />
+                            <field name="calendar_id" />
+                            <button
+                                name="action_assign_to_order"
+                                type="object"
+                                string="Assign"
+                                class="btn-primary"
+                                context="{'fsm_order_id': parent.id}"
+                                invisible="not parent.id or parent.person_id == id"
+                            />
+                            <button
+                                string="Assigned"
+                                class="btn-secondary"
+                                invisible="not parent.id or parent.person_id != id"
+                            />
+                        </list>
+                    </field>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
